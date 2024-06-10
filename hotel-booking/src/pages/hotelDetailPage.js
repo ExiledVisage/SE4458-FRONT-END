@@ -10,7 +10,7 @@ function HotelDetailPage() {
   useEffect(() => {
     const fetchHotel = async () => {
       try {
-        const response = await axios.get(`/api/hotels/${hotelId}`);
+        const response = await axios.get(`http://localhost:5275/hotelBookingAPI/api/hotels/get-hotel/${hotelId}`);
         setHotel(response.data);
       } catch (error) {
         console.error('Error fetching hotel details', error);

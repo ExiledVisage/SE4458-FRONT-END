@@ -1,36 +1,52 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './searchResultsPage.css';
+import { SearchContext } from '../context/searchContext';
+import { UserContext } from '../context/userContext';
 
 function SearchResultsPage() {
-  const location = useLocation();
-  const [hotels, setHotels] = useState([]);
+  const navigate = useNavigate();
+  const { searchParams } = useContext(SearchContext);
+  const { user } = useContext(UserContext);
+  const [rooms, setRooms] = useState([]);
 
   useEffect(() => {
-    const fetchHotels = async () => {
+    const fetchRooms = async () => {
       try {
-        const response = await axios.get('/api/hotels', { params: location.state.searchParams });
-        setHotels(response.data);
+        const response = await axios.post('http://localhost:5275/hotelBookingAPI/api/rooms/search-rooms', searchParams);
+        setRooms(response.data);
       } catch (error) {
-        console.error('Error fetching hotels', error);
+        console.error('Error fetching rooms:', error);
       }
     };
-    fetchHotels();
-  }, [location.state.searchParams]);
+
+    fetchRooms();
+  }, [searchParams]);
+
+  const handleBookRoom = (room) => {
+    navigate('/booking', { state: { room, searchParams } });
+  };
+
+  const getDiscountedPrice = (price) => {
+    return user ? (price * 0.9).toFixed(2) : price;
+  };
 
   return (
-    <div className="results-container">
-      <h1>Search Results</h1>
-      <ul className="hotel-list">
-        {hotels.map(hotel => (
-          <li key={hotel.id} className="hotel-item">
-            <h2>{hotel.name}</h2>
-            <p>{hotel.description}</p>
-            <button>View Details</button>
-          </li>
-        ))}
-      </ul>
+    <div className="search-results-container">
+      <h2>Available Rooms</h2>
+      {rooms.length > 0 ? (
+        rooms.map((room) => (
+          <div key={room.id} className="room-card">
+            <h3>{room.type}</h3>
+            <p>Price: ${getDiscountedPrice(room.price)}</p>
+            <p>Capacity: {room.capacity}</p>
+            <button onClick={() => handleBookRoom(room)}>Book Now</button>
+          </div>
+        ))
+      ) : (
+        <p>No rooms available for the selected criteria.</p>
+      )}
     </div>
   );
 }

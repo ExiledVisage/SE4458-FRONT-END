@@ -1,0 +1,63 @@
+.admin-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+  }
+  
+  .admin-container h1, .admin-container h2 {
+    margin-bottom: 20px;
+  }
+  
+  .room-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 30px;
+  }
+  
+  .room-form input, .room-form label {
+    margin: 10px 0;
+    padding: 10px;
+    width: 300px;
+    font-size: 1em;
+  }
+  
+  .room-form button {
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+  
+  .room-form button:hover {
+    background-color: #0056b3;
+  }
+  
+  .room-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .room-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .room-list li {
+    padding: 10px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    width: 300px;
+  }
+  
+  .room-list li:hover {
+    background-color: #f0f0f0;
+  }

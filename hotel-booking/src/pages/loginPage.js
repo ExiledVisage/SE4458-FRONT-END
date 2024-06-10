@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import './loginPage.css';
 import { UserContext } from '../context/userContext';
 
@@ -16,11 +16,13 @@ function LoginPage() {
   };
 
   const handleLogin = async () => {
+    console.warn("hiBeforreconstTryFunction")
     try {
       const response = await axios.post('http://localhost:5275/hotelBookingAPI/api/users/login', {
         Email: credentials.email,
         Password: credentials.password,
       });
+      console.log("hiBeforreconstToken")
       const token = response.data.token;
       localStorage.setItem('jwtToken', token);
       const decodedToken = jwtDecode(token);
